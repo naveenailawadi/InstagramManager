@@ -50,4 +50,7 @@ for nonfollower in to_unfollow:
     if not unfollowed_info['friendship_status']['following']:
         print(f"Unfollowed {nonfollower.username}")
     else:
-        print(f"Could not unfollow {nonfollower.username}")
+        print(f"Could not unfollow {nonfollower.username} (sleeping and resetting id)")
+        time.sleep(10)
+        manager.reset_rank_token()
+        manager.unfollow(nonfollower)

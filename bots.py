@@ -26,15 +26,11 @@ class FollowManager:
         self.loader.login(username, password)
         self.loaded_profile = Profile.from_username(self.loader.context, username)
 
+    def reset_rank_token(self):
+        self.rank_token = self.api.generate_uuid()
+
     # have to also use the instaloader api to get this to work (regular one doesnt return enough followers)
     def get_followers(self):
-        '''
-        response = self.api.user_followers(self.user_id, self.rank_token)
-
-        # not sure why the user's ID is pk, but it is
-        followers = {User(user['username'], user['pk']) for user in response['users']}
-        '''
-
         # use set comprehension for getting followers from a generator
         followers = {User(follower.username, follower.userid) for follower in self.loaded_profile.get_followers()}
 
@@ -73,5 +69,11 @@ class FollowManager:
     # create a function to unfollow people (use the user datatype for maximum readability)
     def unfollow(self, user):
         response = self.api.friendships_destroy(user.user_id)
+
+        return response
+
+    # create a function for refollowing people
+    def follow(self, user):
+        response = self.api.friendships_create(user.user_id)
 
         return response
