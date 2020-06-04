@@ -5,11 +5,11 @@ import time
 print('Welcome to the InstagramUnfollower!\n')
 username = input('Instagram username: ')
 password = input('Instagram password: ')
-print('\nFinding nonfollowers...')
 
 manager = FollowManager(username, password)
 
 # get the nonfollowers
+print('\nFinding nonfollowers...')
 start = time.time()
 nonfollowers = manager.get_nonfollowers()
 end = time.time()
