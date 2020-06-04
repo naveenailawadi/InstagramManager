@@ -1,3 +1,4 @@
+from instagram_private_api.errors import ClientError
 from bots import FollowManager
 import time
 
@@ -45,7 +46,13 @@ to_unfollow = {manager.match_user(username, nonfollowers) for username in to_unf
 print(f"Unfollowing {len(to_unfollow)} of {len(nonfollowers)} nonfollowers...")
 
 for nonfollower in to_unfollow:
-    unfollowed_info = manager.unfollow(nonfollower)
+    try:
+        unfollowed_info = manager.unfollow(nonfollower)
+        time.sleep(1)
+    except ClientError:
+        time.sleep(10)
+        manager.reset_rank_token()
+        unfollowed_info = manager.unfollow(nonfollower)
 
     if not unfollowed_info['friendship_status']['following']:
         print(f"Unfollowed {nonfollower.username}")
