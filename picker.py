@@ -15,15 +15,14 @@ start = time.time()
 nonfollowers = manager.get_nonfollowers()
 end = time.time()
 
-print('Nonfollowers: ')
-for nonfollower in nonfollowers:
-    print(nonfollower)
 
 print(f"It took {int(end - start)} seconds to find {len(nonfollowers)} nonfollowers for {username}.\n")
 
 print('Select to unfollow, refollow, or do nothing with the user')
 for nonfollower in nonfollowers:
+    print(nonfollower.username)
     decision = input('Remove (un/re/no): ')
+    print('\n')
 
     if 'un' in decision.lower():
         try:
