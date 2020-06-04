@@ -57,17 +57,21 @@ class FollowManager:
         following = {user.username for user in following_raw}
 
         # get the cross reference
-        nonfollower_ids = following - followers
+        nonfollower_usernames = following - followers
 
         # revert back to user objects
-        nonfollowers = {self.match_user(user_id, following_raw) for user_id in nonfollower_ids}
+        nonfollowers = {self.match_user(username, following_raw) for username in nonfollower_usernames}
 
-        return nonfollower_ids
+        return nonfollowers
 
     # create a function to rematch the users
-    def match_user(self, user_id, users):
+    def match_user(self, username, users):
         for user in users:
-            if user_id == user.user_id:
+            if username == user.username:
                 return user
 
-    # create a function to unfollow people
+    # create a function to unfollow people (use the user datatype for maximum readability)
+    def unfollow(self, user):
+        response = self.api.friendships_destroy(user.user_id)
+
+        return response
