@@ -1,4 +1,4 @@
-from instagram_private_api import Client, ClientCompatPatch
+from instagram_private_api import Client
 from instaloader import instaloader, Profile
 
 
